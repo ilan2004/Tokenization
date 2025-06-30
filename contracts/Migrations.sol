@@ -1,20 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-contract Migrations {
-    address public owner;
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract Migrations is Ownable {
     uint public last_completed_migration;
 
-    modifier restricted() {
-        require(msg.sender == owner, "Migrations: caller is not the owner");
-        _;
-    }
+    constructor() Ownable(msg.sender) {}
 
-    constructor() {
-        owner = msg.sender;
-    }
-
-    function setCompleted(uint completed) public restricted {
+    function setCompleted(uint completed) public onlyOwner {
         last_completed_migration = completed;
     }
 }
